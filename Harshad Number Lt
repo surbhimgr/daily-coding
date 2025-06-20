@@ -1,0 +1,16 @@
+class Solution(object):
+    def sumOfTheDigitsOfHarshadNumber(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        s1 =0
+        y=x
+        while y>0:
+            s1+=y%10
+            y=y//10
+
+        if x%s1==0:
+            return s1
+        else :
+            return -1
