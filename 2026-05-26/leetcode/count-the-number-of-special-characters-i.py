@@ -9,48 +9,45 @@
 class Solution:
     """
     Problem: Count the Number of Special Characters I
-    
-    A character is considered 'special' if both its lowercase and uppercase 
-    versions appear at least once in the given string 'word'.
+    A character is 'special' if both its lowercase and uppercase versions 
+    exist within the given string.
     
     Approach:
-    1. Use two sets to track the characters encountered: one for lowercase and one for uppercase.
-    2. Iterate through the string, adding each character to the corresponding set.
-    3. The intersection of these two sets contains all characters that appear in both cases.
-    4. The length of this intersection is the total count of special characters.
+    1. Use two sets to keep track of all lowercase letters and uppercase letters 
+       encountered in the string.
+    2. The intersection of these two sets represents the letters that appear 
+       in both cases.
+    3. The size of this intersection is the number of special characters.
     
-    Time Complexity: O(n), where n is the length of the string. We traverse the string once.
-    Space Complexity: O(1), as the sets can contain at most 26 English letters regardless of input size.
+    Time Complexity: O(N), where N is the length of the word. We traverse the string once.
+    Space Complexity: O(1), because the sets will contain at most 26 characters 
+    regardless of the input size.
     """
 
-    def numberOfSpecialChars(self, word: str) -> int:
-        # Sets to store characters seen in lowercase and uppercase
-        lowers = set()
-        uppers = set()
+    def specialCharacters(self, word: str) -> int:
+        # Set to store lowercase letters found in the word
+        lower_set = set()
+        # Set to store uppercase letters found in the word
+        upper_set = set()
         
         for char in word:
             if char.islower():
-                lowers.add(char)
+                lower_set.add(char)
             elif char.isupper():
-                uppers.add(char.lower()) # Normalize to lowercase for easy intersection
-                
-        # The special characters are those present in both sets
-        # Intersection find elements common to both
-        special_chars = lowers.intersection(uppers)
+                upper_set.add(char)
+        
+        # To find the intersection, we need the uppercase letters converted to lowercase
+        # or vice-versa. Here we convert all uppercase letters in upper_set to lowercase.
+        normalized_upper = {char.lower() for char in upper_set}
+        
+        # The number of special characters is the size of the intersection 
+        # between lowercase characters and normalized uppercase characters.
+        special_chars = lower_set.intersection(normalized_upper)
         
         return len(special_chars)
 
-# Example usage and test cases
-if __name__ == "__main__":
-    sol = Solution()
-    
-    # Test Case 1
-    assert sol.numberOfSpecialChars("aaAbcBC") == 3 # 'a', 'b', 'c'
-    
-    # Test Case 2
-    assert sol.numberOfSpecialChars("abc") == 0    # No uppercase
-    
-    # Test Case 3
-    assert sol.numberOfSpecialChars("abBCab") == 1 # Only 'b'
-    
-    print("All test cases passed!")
+# Example usage:
+# sol = Solution()
+# print(sol.specialCharacters("aaAbcBC")) # Output: 3
+# print(sol.specialCharacters("abc"))     # Output: 0
+# print(sol.specialCharacters("abBCab"))  # Output: 1
